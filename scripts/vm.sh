@@ -57,4 +57,4 @@ for grp in adm users systemd-journal docker lxd; do
     fi
 done'
 
-sudo su -c "find /opt/post-generation -mindepth 1 -maxdepth 1 -type f -name '*.sh' -exec bash {} \;"
+sudo env PATH="/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:$PATH" bash -c "find /opt/post-generation -mindepth 1 -maxdepth 1 -type f -name '*.sh' -exec bash {} \;"
