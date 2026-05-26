@@ -50,6 +50,9 @@ sudo env PATH="/usr/bin:/bin:/usr/sbin:/sbin:$PATH" bash -c 'exec "$@"' _ "${HEL
 
 sudo env PATH="/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:$PATH" bash -c 'id -u runner >/dev/null 2>&1 || (useradd -c "Action Runner" -m -s /bin/bash runner && usermod -L runner && echo "runner ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/runner && chmod 440 /etc/sudoers.d/runner)'
 
-sudo env PATH="/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:$PATH" bash -c "usermod -aG adm,users,systemd-journal,docker,lxd runner"
+sudo env PATH="/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:$PATH" bash -c '
+for grp in adm users systemd-journal docker lxd; do
+    getent group "$grp" > /dev/null 2>&1 && usermod -aG "$grp" runner
+done'
 
 sudo su -c "find /opt/post-generation -mindepth 1 -maxdepth 1 -type f -name '*.sh' -exec bash {} \;"
