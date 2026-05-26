@@ -32,5 +32,3 @@ export PATH=$PATH:$DOTNET_ROOT
   --labels "${label}" \
   --url "https://github.com/${repo}" \
   --token "${token}"
-
-/usr/bin/bash -l -c "./run.sh"
