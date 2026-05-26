@@ -35,8 +35,13 @@ for package in $components; do
     if [[ $version == "latest" ]]; then
         install_dnfpkgs "$package"
     else
-        version_string=$(dnf --showduplicates list "$package" | awk '{ print $2 }' | grep "$version" | head -1)
-        install_dnfpkgs "${package}-${version_string}"
+        version_string=$(dnf --showduplicates list "$package" 2>/dev/null | awk '{ print $2 }' | grep "$version" | head -1)
+        if [[ -n "$version_string" ]]; then
+            install_dnfpkgs "${package}-${version_string}"
+        else
+            echo "Warning: version $version of $package not found in repo, installing latest available"
+            install_dnfpkgs "$package"
+        fi
     fi
 done
 
