@@ -3,13 +3,21 @@ Description=GitHub Actions Runner
 After=network.target
 
 [Service]
-Environment=DOTNET_ROOT='/opt/dotnet'
-ExecStart=/usr/bin/bash -c "/opt/runner-cache/run.sh"
+EnvironmentFile=/etc/gha-runner.conf
+ExecStart=/usr/bin/bash -c "TOKEN=$(curl -fsSL -X POST \
+  -H \"Authorization: Bearer ${GITHUB_PAT}\" \
+  -H \"Accept: application/vnd.github+json\" \
+  \"https://api.github.com/orgs/${RUNNER_ORG}/actions/runners/registration-token\" \
+  | jq -r .token) && \
+  exec /opt/register-runner.sh -r \"${RUNNER_ORG}\" -t \"$TOKEN\" -n \"${RUNNER_NAME}\" -l \"${RUNNER_LABELS}\""
 User=runner
 WorkingDirectory=/opt/runner-cache
 KillMode=process
 KillSignal=SIGTERM
 TimeoutStopSec=5min
+Restart=always
+RestartSec=5
+Environment=DOTNET_ROOT='/opt/dotnet'
 
 [Install]
 WantedBy=multi-user.target
