@@ -29,7 +29,7 @@ if [[ "$IMAGE_OS" == *"ubuntu"* ]]; then
     run_script "${INSTALLER_SCRIPT_FOLDER}/install-apt-common.sh" "DEBIAN_FRONTEND" "HELPER_SCRIPTS" "INSTALLER_SCRIPT_FOLDER" "ARCH"
 
     run_script "${INSTALLER_SCRIPT_FOLDER}/configure-dpkg.sh" "DEBIAN_FRONTEND" "HELPER_SCRIPTS" "INSTALLER_SCRIPT_FOLDER" "ARCH"
-elif [[ "$IMAGE_OS" == *"centos"* ]]; then
+elif [[ "$IMAGE_OS" == *"centos"* ]] || [[ "$IMAGE_OS" == *"rocky"* ]]; then
     # Add apt wrapper to implement retries
     run_script "${INSTALLER_SCRIPT_FOLDER}/configure-yum-mock.sh"
     echo "Setting user ubuntu with sudo privileges"
