@@ -1,5 +1,7 @@
 #!/bin/bash
 
+export PATH="/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:${PATH}"
+
 while getopts r:t:l:n flag
 do
     # shellcheck disable=SC2220
