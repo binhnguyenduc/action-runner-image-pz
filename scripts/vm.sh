@@ -48,8 +48,8 @@ chmod -R 0755 /etc/systemd/system/gha-runner.service
 # shellcheck disable=SC2154
 sudo env PATH="/usr/bin:/bin:/usr/sbin:/sbin:$PATH" bash -c 'exec "$@"' _ "${HELPER_SCRIPTS}/setup_install.sh" "${clean_args[@]}" "${forward_args[@]}"
 
-sudo bash -c 'id -u runner >/dev/null 2>&1 || (useradd -c "Action Runner" -m -s /bin/bash runner && usermod -L runner && echo "runner ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/runner && chmod 440 /etc/sudoers.d/runner)'
+sudo env PATH="/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:$PATH" bash -c 'id -u runner >/dev/null 2>&1 || (useradd -c "Action Runner" -m -s /bin/bash runner && usermod -L runner && echo "runner ALL=(ALL) NOPASSWD: ALL" > /etc/sudoers.d/runner && chmod 440 /etc/sudoers.d/runner)'
 
-sudo bash -c "usermod -aG adm,users,systemd-journal,docker,lxd runner"
+sudo env PATH="/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:$PATH" bash -c "usermod -aG adm,users,systemd-journal,docker,lxd runner"
 
 sudo su -c "find /opt/post-generation -mindepth 1 -maxdepth 1 -type f -name '*.sh' -exec bash {} \;"

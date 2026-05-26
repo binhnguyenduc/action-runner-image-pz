@@ -63,14 +63,20 @@ append_etc_environment_variable() {
 
 prepend_etc_environment_path() {
     local element=$1
-
-    prepend_etc_environment_variable PATH "${element}"
+    local existing_value
+    existing_value=$(get_etc_environment_variable "PATH")
+    if [[ ":${existing_value}:" != *":${element}:"* ]]; then
+        prepend_etc_environment_variable PATH "${element}"
+    fi
 }
 
 append_etc_environment_path() {
     local element=$1
-
-    append_etc_environment_variable PATH "${element}"
+    local existing_value
+    existing_value=$(get_etc_environment_variable "PATH")
+    if [[ ":${existing_value}:" != *":${element}:"* ]]; then
+        append_etc_environment_variable PATH "${element}"
+    fi
 }
 
 # Process /etc/environment as if it were shell script with `export VAR=...` expressions
