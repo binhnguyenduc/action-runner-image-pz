@@ -24,7 +24,7 @@ esac
 
 os_codename=$(. /etc/os-release && echo "$VERSION_ID")
 dnf -y install dnf-plugins-core
-dnf config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
+dnf config-manager --add-repo https://download.docker.com/linux/rhel/docker-ce.repo
 
 # Install docker components which available via apt-get
 # Using toolsets keep installation order to install dependencies before the package in order to control versions
