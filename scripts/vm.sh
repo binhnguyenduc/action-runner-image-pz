@@ -1,6 +1,9 @@
 #!/bin/bash
 set -e  # Exit on any error
 
+# Ensure coreutils are findable when PATH is stripped (e.g. called from run.sh on Rocky/RHEL)
+export PATH="/usr/bin:/bin:/usr/sbin:/sbin:${PATH}"
+
 HELPERS_DIR="$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")/helpers"
 
 # shellcheck disable=SC1091

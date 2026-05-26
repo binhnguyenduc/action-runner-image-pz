@@ -1,4 +1,6 @@
 #!/bin/bash
+
+export PATH="/usr/bin:/bin:/usr/sbin:/sbin:${PATH}"
 set -e  # Exit on any error
 
 CURRENT_DIR="$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")"

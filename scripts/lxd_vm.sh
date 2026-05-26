@@ -1,5 +1,7 @@
 #!/bin/bash
 
+export PATH="/usr/bin:/bin:/usr/sbin:/sbin:${PATH}"
+
 HELPERS_DIR="$(dirname "$(readlink -f "${BASH_SOURCE[0]}")")/helpers"
 
 # shellcheck disable=SC1091

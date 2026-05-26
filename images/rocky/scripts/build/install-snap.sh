@@ -1,0 +1,47 @@
+#!/bin/bash -e
+################################################################################
+##  File:  install-snap.sh
+##  Desc:  Install snapd
+################################################################################
+# shellcheck disable=SC1091
+source "$HELPER_SCRIPTS"/install.sh
+
+# Install snapd if not already installed
+echo "Installing snapd..."
+if ! rpm -q snapd &>/dev/null; then
+    update_dnfpkgs
+    install_dnfpkgs epel-release snapd
+else
+    echo "snapd is already installed."
+fi
+
+# Enable and start snapd.socket
+echo "Enabling and starting snapd.socket..."
+sudo systemctl enable --now snapd.socket
+
+# Create symbolic link for snap directory if not already exists
+if [ -L /snap ]; then
+    echo "Symbolic link for /snap already exists."
+elif [ -e /snap ]; then
+    echo "/snap exists but is a directory/file, not a symbolic link."
+else
+    echo "Creating symbolic link for /snap..."
+    sudo ln -sf /var/lib/snapd/snap /snap
+fi
+
+# Ensure /snap/bin is in the PATH
+echo "Checking if /snap/bin is in the PATH..."
+if [[ "$PATH" != *"/snap/bin"* ]]; then
+    echo "/snap/bin is not in the PATH. Adding it now..."
+    export PATH=/snap/bin:$PATH
+    echo "export PATH=/snap/bin:$PATH" >> ~/.bashrc  # Persist for future sessions
+    echo "/snap/bin has been added to the PATH."
+else
+    echo "/snap/bin is already in the PATH."
+fi
+
+echo "Checking the status of snapd.seeded.service..."
+ensure_service_is_active snapd.seeded.service
+ensure_service_is_active snapd.service
+
+echo "Snapd setup and initialization completed successfully."

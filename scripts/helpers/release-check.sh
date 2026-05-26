@@ -1,4 +1,6 @@
 #!/bin/bash
+
+export PATH="/usr/bin:/bin:/usr/sbin:/sbin:${PATH}"
 # https://gist.githubusercontent.com/electrickite/ba7e734752ee90f04587a24eb6d58b04/raw/9ee75217d17d9c6a2b04bb260d933afebd4b0afb/release-check.sh
 
 usage () {
