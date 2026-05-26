@@ -52,7 +52,9 @@ sudo env PATH="/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:$PATH" bash -c 'id -
 
 sudo env PATH="/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:$PATH" bash -c '
 for grp in adm users systemd-journal docker lxd; do
-    getent group "$grp" > /dev/null 2>&1 && usermod -aG "$grp" runner
+    if getent group "$grp" > /dev/null 2>&1; then
+        usermod -aG "$grp" runner
+    fi
 done'
 
 sudo su -c "find /opt/post-generation -mindepth 1 -maxdepth 1 -type f -name '*.sh' -exec bash {} \;"
