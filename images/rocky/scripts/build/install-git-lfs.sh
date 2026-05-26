@@ -23,7 +23,7 @@ awk -v dist="$ROCKY_MAJOR" \
   "$SETUP_SCRIPT" > "${SETUP_SCRIPT}.patched"
 mv "${SETUP_SCRIPT}.patched" "$SETUP_SCRIPT"
 
-sudo bash "$SETUP_SCRIPT"
+sudo env PATH="/usr/bin:/bin:/usr/sbin:/sbin:$PATH" bash "$SETUP_SCRIPT"
 rm -f "$SETUP_SCRIPT"
 
 install_dnfpkgs git-lfs
