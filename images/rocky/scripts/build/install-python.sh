@@ -4,7 +4,7 @@
 ##  Desc:  Install Python 3
 ################################################################################
 
-export PATH="/usr/bin:/bin:/usr/sbin:/sbin:${PATH}"
+export PATH="/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:${PATH}"
 
 set -e
 # Source the helpers for use with the script
@@ -16,7 +16,7 @@ source "$HELPER_SCRIPTS"/os.sh
 source "$HELPER_SCRIPTS"/install.sh
 
 # Install Python, Python 3, pip, pip3
-install_dnfpkgs --no-install-recommends python3 python3-dev python3-pip python3-venv
+install_dnfpkgs python3 python3-devel python3-pip
 
 # Install pipx
 # Set pipx custom directory

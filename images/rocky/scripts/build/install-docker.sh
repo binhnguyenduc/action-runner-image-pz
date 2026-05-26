@@ -33,10 +33,10 @@ components=$(get_toolset_value '.docker.components[] .package')
 for package in $components; do
     version=$(get_toolset_value ".docker.components[] | select(.package == \"$package\") | .version")
     if [[ $version == "latest" ]]; then
-        install_dnfpkgs --no-install-recommends "$package"
+        install_dnfpkgs "$package"
     else
-        version_string=$(dnf --showduplicates list "$package" | awk '{ print $2 }' | grep "$version" | grep "$os_codename" | head -1)
-        install_dnfpkgs --no-install-recommends "${package}=${version_string}"
+        version_string=$(dnf --showduplicates list "$package" | awk '{ print $2 }' | grep "$version" | head -1)
+        install_dnfpkgs "${package}-${version_string}"
     fi
 done
 
