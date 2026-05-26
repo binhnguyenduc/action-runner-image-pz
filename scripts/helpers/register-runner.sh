@@ -28,7 +28,6 @@ export PATH=$PATH:$DOTNET_ROOT
 ./config.sh \
   --unattended \
   --disableupdate \
-  --ephemeral \
   --name "${name}" \
   --labels "${label}" \
   --url "https://github.com/${repo}" \
